@@ -1,0 +1,21 @@
+name: Maven Test
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up JDK 8
+        uses: docker://openjdk:8
+
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Build and test with Maven
+        run: mvn test
