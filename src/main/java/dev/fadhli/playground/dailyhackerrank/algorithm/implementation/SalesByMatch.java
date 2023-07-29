@@ -19,7 +19,7 @@ public class SalesByMatch {
 
         int totalPairs = 0;
         for (int sockId : sockCollection.keySet()) {
-            totalPairs += Math.floor((double) sockCollection.get(sockId) / 2);
+            totalPairs += (int) Math.floor((double) sockCollection.get(sockId) / 2);
         }
 
         return totalPairs;
