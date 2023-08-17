@@ -1,54 +1,48 @@
 package dev.fadhli.playground.dailyhackerrank.algorithm.implementation;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Scanner;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 public class JumpingOnClouds {
 
-    private static final Scanner scanner = new Scanner(System.in);
+    public static int solution(List<Integer> c) {
+        List<Integer> jumps = new ArrayList<>();
+        int i = 0;
 
-    static int solution(int[] c, int k) {
-        int energy = 100;
-        int i = k % c.length;
-        energy -= c[i] * 2 + 1;
-
-        while (i != 0) {
-            i = (i + k) % c.length;
-            energy -= c[i] * 2 + 1;
+        while (i < c.size() - 1) {
+            if (i + 2 < c.size() && c.get(i + 2) != 1) {
+                jumps.add(i + 2);
+                i += 2;
+            } else {
+                jumps.add(i + 1);
+                i += 1;
+            }
         }
 
-        return energy;
+        return jumps.size();
     }
 
     public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
 
-        String[] nk = scanner.nextLine().split(" ");
+        int n = Integer.parseInt(bufferedReader.readLine().trim());
 
-        int n = Integer.parseInt(nk[0]);
+        List<Integer> c = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+                .map(Integer::parseInt)
+                .collect(toList());
 
-        int k = Integer.parseInt(nk[1]);
-
-        int[] c = new int[n];
-
-        String[] cItems = scanner.nextLine().split(" ");
-        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
-
-        for (int i = 0; i < n; i++) {
-            int cItem = Integer.parseInt(cItems[i]);
-            c[i] = cItem;
-        }
-
-        int result = solution(c, k);
+        int result = solution(c);
 
         bufferedWriter.write(String.valueOf(result));
         bufferedWriter.newLine();
 
+        bufferedReader.close();
         bufferedWriter.close();
-
-        scanner.close();
     }
 
 }
